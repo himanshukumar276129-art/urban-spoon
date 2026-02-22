@@ -1,4 +1,4 @@
-from dotenv import load_dotenv
+﻿from dotenv import load_dotenv
 import os
 load_dotenv()
 
@@ -7,49 +7,201 @@ from flask_cors import CORS
 import json
 import requests
 import io
-from google.oauth2 import id_token
-from google.auth.transport import requests as google_requests
-from gemini_client import GeminiClient
-from openrouter_client import OpenRouterClient
-from system_control import SystemControl
-from weather_service import WeatherService
-from news_service import NewsService
-from imagen_client import ImagenClient
-from stability_client import StabilityClient
-from crypto_service import CryptoService
-from stock_service import StockService
-from runway_client import RunwayClient
-from freepik_client import FreepikClient
-from huggingface_client import HuggingFaceClient
-from veo_client import VeoClient
-from youtube_service import YouTubeService
-from kling_client import KlingClient
-from replicate_client import ReplicateClient
-from github_client import GitHubClient
-from clipdrop_client import ClipDropClient
-from deepai_client import DeepAIClient
-from picsart_client import PicsartClient
-from picwish_client import PicWishClient
-from groq_client import GroqClient
-from comet_client import CometClient
-from a1_art_client import A1ArtClient
-from pollinations_client import PollinationsClient
-from logo_dev_client import LogoDevClient
-from chutes_client import ChutesClient
-from ollama_client import OllamaClient
-from bytez_client import BytezClient
-from search_engine_client import search_client
-from wikipedia_client import WikipediaClient
-from nasa_client import NASAClient
-from emoji_service import emoji_service
-from google_sheets_service import sheets_service
-from google_docs_history_service import docs_history_service
-from qr_service import qr_service
-import razorpay
 import hmac
 import hashlib
-import json
 from datetime import datetime, timedelta
+
+try:
+    from google.oauth2 import id_token
+    from google.auth.transport import requests as google_requests
+except Exception as _e:
+    print(f"[WARN] google-auth import failed: {_e}")
+    id_token = None; google_requests = None
+
+try:
+    from gemini_client import GeminiClient
+except Exception as _e:
+    print(f"[WARN] GeminiClient import failed: {_e}"); GeminiClient = None
+
+try:
+    from openrouter_client import OpenRouterClient
+except Exception as _e:
+    print(f"[WARN] OpenRouterClient import failed: {_e}"); OpenRouterClient = None
+
+try:
+    from system_control import SystemControl
+except Exception as _e:
+    print(f"[WARN] SystemControl import failed: {_e}"); SystemControl = None
+
+try:
+    from weather_service import WeatherService
+except Exception as _e:
+    print(f"[WARN] WeatherService import failed: {_e}"); WeatherService = None
+
+try:
+    from news_service import NewsService
+except Exception as _e:
+    print(f"[WARN] NewsService import failed: {_e}"); NewsService = None
+
+try:
+    from imagen_client import ImagenClient
+except Exception as _e:
+    print(f"[WARN] ImagenClient import failed: {_e}"); ImagenClient = None
+
+try:
+    from stability_client import StabilityClient
+except Exception as _e:
+    print(f"[WARN] StabilityClient import failed: {_e}"); StabilityClient = None
+
+try:
+    from crypto_service import CryptoService
+except Exception as _e:
+    print(f"[WARN] CryptoService import failed: {_e}"); CryptoService = None
+
+try:
+    from stock_service import StockService
+except Exception as _e:
+    print(f"[WARN] StockService import failed: {_e}"); StockService = None
+
+try:
+    from runway_client import RunwayClient
+except Exception as _e:
+    print(f"[WARN] RunwayClient import failed: {_e}"); RunwayClient = None
+
+try:
+    from freepik_client import FreepikClient
+except Exception as _e:
+    print(f"[WARN] FreepikClient import failed: {_e}"); FreepikClient = None
+
+try:
+    from huggingface_client import HuggingFaceClient
+except Exception as _e:
+    print(f"[WARN] HuggingFaceClient import failed: {_e}"); HuggingFaceClient = None
+
+try:
+    from veo_client import VeoClient
+except Exception as _e:
+    print(f"[WARN] VeoClient import failed: {_e}"); VeoClient = None
+
+try:
+    from youtube_service import YouTubeService
+except Exception as _e:
+    print(f"[WARN] YouTubeService import failed: {_e}"); YouTubeService = None
+
+try:
+    from kling_client import KlingClient
+except Exception as _e:
+    print(f"[WARN] KlingClient import failed: {_e}"); KlingClient = None
+
+try:
+    from replicate_client import ReplicateClient
+except Exception as _e:
+    print(f"[WARN] ReplicateClient import failed: {_e}"); ReplicateClient = None
+
+try:
+    from github_client import GitHubClient
+except Exception as _e:
+    print(f"[WARN] GitHubClient import failed: {_e}"); GitHubClient = None
+
+try:
+    from clipdrop_client import ClipDropClient
+except Exception as _e:
+    print(f"[WARN] ClipDropClient import failed: {_e}"); ClipDropClient = None
+
+try:
+    from deepai_client import DeepAIClient
+except Exception as _e:
+    print(f"[WARN] DeepAIClient import failed: {_e}"); DeepAIClient = None
+
+try:
+    from picsart_client import PicsartClient
+except Exception as _e:
+    print(f"[WARN] PicsartClient import failed: {_e}"); PicsartClient = None
+
+try:
+    from picwish_client import PicWishClient
+except Exception as _e:
+    print(f"[WARN] PicWishClient import failed: {_e}"); PicWishClient = None
+
+try:
+    from groq_client import GroqClient
+except Exception as _e:
+    print(f"[WARN] GroqClient import failed: {_e}"); GroqClient = None
+
+try:
+    from comet_client import CometClient
+except Exception as _e:
+    print(f"[WARN] CometClient import failed: {_e}"); CometClient = None
+
+try:
+    from a1_art_client import A1ArtClient
+except Exception as _e:
+    print(f"[WARN] A1ArtClient import failed: {_e}"); A1ArtClient = None
+
+try:
+    from pollinations_client import PollinationsClient
+except Exception as _e:
+    print(f"[WARN] PollinationsClient import failed: {_e}"); PollinationsClient = None
+
+try:
+    from logo_dev_client import LogoDevClient
+except Exception as _e:
+    print(f"[WARN] LogoDevClient import failed: {_e}"); LogoDevClient = None
+
+try:
+    from chutes_client import ChutesClient
+except Exception as _e:
+    print(f"[WARN] ChutesClient import failed: {_e}"); ChutesClient = None
+
+try:
+    from ollama_client import OllamaClient
+except Exception as _e:
+    print(f"[WARN] OllamaClient import failed: {_e}"); OllamaClient = None
+
+try:
+    from bytez_client import BytezClient
+except Exception as _e:
+    print(f"[WARN] BytezClient import failed: {_e}"); BytezClient = None
+
+try:
+    from search_engine_client import search_client
+except Exception as _e:
+    print(f"[WARN] search_client import failed: {_e}"); search_client = None
+
+try:
+    from wikipedia_client import WikipediaClient
+except Exception as _e:
+    print(f"[WARN] WikipediaClient import failed: {_e}"); WikipediaClient = None
+
+try:
+    from nasa_client import NASAClient
+except Exception as _e:
+    print(f"[WARN] NASAClient import failed: {_e}"); NASAClient = None
+
+try:
+    from emoji_service import emoji_service
+except Exception as _e:
+    print(f"[WARN] emoji_service import failed: {_e}"); emoji_service = None
+
+try:
+    from google_sheets_service import sheets_service
+except Exception as _e:
+    print(f"[WARN] sheets_service import failed: {_e}"); sheets_service = None
+
+try:
+    from google_docs_history_service import docs_history_service
+except Exception as _e:
+    print(f"[WARN] docs_history_service import failed: {_e}"); docs_history_service = None
+
+try:
+    from qr_service import qr_service
+except Exception as _e:
+    print(f"[WARN] qr_service import failed: {_e}"); qr_service = None
+
+try:
+    import razorpay
+except Exception as _e:
+    print(f"[WARN] razorpay import failed: {_e}"); razorpay = None
 
 import logging
 
